@@ -1,6 +1,6 @@
 // useState: tic tac toe
 
-import React from 'react'
+import React from 'react'  // KENT: Prefers dotting off React b/c he doesn't like having to update imports
 
 function Board() {
   // 🐨 Use React.useState for the `squares` state you need
@@ -11,21 +11,32 @@ function Board() {
 
   // 🐨 create your derived state variable here for the nextValue
   // 💰 call it "nextValue" and get it by calling calculateWhoIsNext with the squares
-  const checkSquare = square => {
-    if(square) return square.toLowerCase === 'x'
-  }
+  // const checkX = square => { if(square) return square.toLowerCase === 'x' }
+  // const checkO = square => { if(square) return square.toLowerCase === 'o' }
 
-  const exes = squares.filter(square => square.toLowerCase === 'x')
-  const ohs = squares.filter(square => square.toLowerCase === 'o')
-  const nextValue = exes.length > ohs? 'o' : 'x'
+  // const exes = squares.filter(checkX)
+  // const ohs = squares.filter(checkO)
+  // const nextValue = exes.length > ohs? 'o' : 'x'
+
+  const nextValue = calculateWhoIsNext(squares)  // KENT: Given function from Kent
 
 
 
   // 🐨 create your derived state variable here for the winner
   // 💰 call it "winner" and get it by calling calculateWinner with the squares
-  const winner = calculateWinner(squares)
+  const winner = calculateWinner(squares)  // KENT: Given function from Dan
 
 
+
+  // Derived state function refactored out
+  function calculateStatus(squares, winner) {
+    return winner
+    ? `Winner: ${ winner }`
+    // : squares.map(square => square).length === squares.length
+    : squares.every(square => square)
+      ? `Scratch: Cat's game`
+      : `Next player: ${ nextValue }`
+  }
 
   // This is the function your square click handler will call. `square` should
   // be an index. So if they click the center square, this will be `5`.
@@ -34,7 +45,8 @@ function Board() {
     // 🐨 first, if there's already winner or there's already a value at the
     // given square index (like someone clicked a square that's already been
     // clicked), then return early so we don't make any state changes
-    if(winner || square) return
+    // if(winner || square) return
+    if(winner || squares[square]) return
 
 
 
@@ -58,11 +70,25 @@ function Board() {
   //
   // 🐨 assign a `status` variable to one of these, and render it above the
   //    board in a div with the className "status"
-  const status = winner
-    ? `Winner: ${ winner }`
-    : squares.map(square => square).length === squares.length
-      ? `Scratch: Cat's game`
-      : `Next player: ${ nextValue }`
+  // const status = winner
+  //   ? `Winner: ${ winner }`
+  //   // : squares.map(square => square).length === squares.length
+  //   : squares.every(square => square)
+  //     ? `Scratch: Cat's game`
+  //     : `Next player: ${ nextValue }`
+
+  const status = calculateStatus(squares, winner)
+
+
+
+  // KENT: Make a function that returns a non-component JSX
+  function renderSquare(idx) {
+    return (
+      <button className="square" onClick={() => selectSquare(idx)}>
+        { squares[idx] }
+      </button>
+    )
+  }
 
   // 🐨 return your JSX with this basic structure:
   return (
@@ -70,12 +96,49 @@ function Board() {
       <div className="status">{/* put the status here */}</div>
       {/* you'll need 3 board-rows and each will have 3 squares */}
       <div className="board-row">
-        <button className="square" onClick={() => selectSquare(0)}>
-          {/* squares[0] */}
+        { renderSquare(0) }
+        { renderSquare(1) }
+        { renderSquare(2) }
+        {/* <button className="square" onClick={() => selectSquare(0)}>
+          { squares[0] }
         </button>
-        {/* etc... */}
+        <button className="square" onClick={() => selectSquare(1)}>
+          { squares[1] }
+        </button>
+        <button className="square" onClick={() => selectSquare(2)}>
+          { squares[2] }
+        </button> */}
       </div>
-      {/* etc... */}
+
+      <div className="board-row">
+        { renderSquare(3) }
+        { renderSquare(4) }
+        { renderSquare(5) }
+        {/* <button className="square" onClick={() => selectSquare(3)}>
+          { squares[3] }
+        </button>
+        <button className="square" onClick={() => selectSquare(4)}>
+          { squares[4] }
+        </button>
+        <button className="square" onClick={() => selectSquare(5)}>
+          { squares[5] }
+        </button> */}
+      </div>
+
+      <div className="board-row">
+        { renderSquare(6) }
+        { renderSquare(7) }
+        { renderSquare(8) }
+        {/* <button className="square" onClick={() => selectSquare(6)}>
+          { squares[6] }
+        </button>
+        <button className="square" onClick={() => selectSquare(7)}>
+          { squares[7] }
+        </button>
+        <button className="square" onClick={() => selectSquare(8)}>
+          { squares[8] }
+        </button> */}
+      </div>
     </div>
   )
 }

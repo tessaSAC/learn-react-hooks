@@ -1,3 +1,33 @@
+// KENT: Copies and pastes a lot of code from 04.js
+  // Instead of [ squares, setSquares ] uses [ history, setHistory ]
+    // Each of these sub-arrays will be a step in history
+    // [ stepNumber, setStepNumber ] = react.useState(0) — tracks what step in history we're on
+
+  // Augment to history:
+    // function selectSquare(square) {
+    //   if(winner || squares[square]) return
+
+    //   const squaresCopy = [ ...squares ]
+    //   squaresCopy[square] = nextValue
+
+    //   const historyCopy = [ ...history ] — Problem: We don't want to copy the whole history
+    //   Solution: const historyCopy = history.slice(0, stepNumber + 1)
+
+    //   historyCopy.push(squaresCopy)
+    //   setHistory(historyCopy)
+    //   setStepNumber(stepNumber + 1)
+    // }
+
+  // Make an unordered list of all moves:
+    // const moves = history(.map((s, idx ) => (
+    //   <button>Go to move #{ idx + 1 }</button>
+    // )))
+
+    // Assign <li key={ stepNumber }>
+    //          </li><button onClick = onclick={ _ => setStepNumber(idx) }> — safe to use idx as key here bc it's not jsx(?)
+
+  // Can track hook state in dev tools; Kent is using the Alpha version (https://github.com/bvaughn/react-devtools-experimental)
+
 // useState: tic tac toe
 // 💯 add game history feature
 // http://localhost:3000/isolated/exercises-final/04.extra-2
