@@ -10,7 +10,7 @@ function useTilt(ref, options) {
     const {current: tiltNode} = ref
     VanillaTilt.init(tiltNode, options)
     return () => tiltNode.vanillaTilt.destroy()
-  }, [options, ref])
+  }, [options, ref])  // KENT: Needs to pass the ref here bc ESLint plugin doesn't know the ref argument is a ref; this is to avoid a linter warning
 }
 
 const options = {
