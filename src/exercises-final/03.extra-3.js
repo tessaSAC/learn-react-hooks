@@ -3,7 +3,9 @@
 // http://localhost:3000/isolated/exercises-final/03.extra-2
 import React from 'react'
 
-function useLocalStorageCounter({step = 1, initialCount = 0, key = 'count'}) {
+// KENT: EC 3/4
+  // Lets you reuse hooks across the app
+function useLocalStorageCounter({step = 1, initialCount = 0, key = 'count'}) {  // KENT: NB key, lets two use different `count`s(?)
   const [count, setCount] = React.useState(() =>
     Number(window.localStorage.getItem('count') || initialCount),
   )

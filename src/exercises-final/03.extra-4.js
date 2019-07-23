@@ -3,13 +3,17 @@
 // http://localhost:3000/isolated/exercises-final/03.extra-3
 import React from 'react'
 
+
+
+// KENT: EC 4/4
+  // Reusable localStorage functionality
 function useLocalStorageState({
   key,
   initialValue,
   serialize = v => v,
   deserialize = v => v,
 }) {
-  const [state, setState] = React.useState(
+  const [state, setState] = React.useState(  // KENT: Generic names since they could be anything
     () => deserialize(window.localStorage.getItem(key)) || initialValue,
   )
 
@@ -21,6 +25,10 @@ function useLocalStorageState({
   return [state, setState]
 }
 
+
+
+// KENT: "Composing" on top of this
+  // This is not React, "just JavaScript"
 function useLocalStorageCounter({step = 1, initialCount = 0, key = 'count'}) {
   const [count, setCount] = useLocalStorageState({
     key,
