@@ -20,7 +20,7 @@ function Counter({ step = 1, initialCount = 0 }) {
   React.useEffect(
     _ => window.localStorage.setItem('count', count),  // Kent says updating localStorage is a side effect and therefore belongs in here
     [ count ],  // EC 2/4: Dep Array — Only rerender if a dep in here
-    // KENT: Stop thinking in terms of lifecycle hooks; start thinking in terms of syncing changes with effects
+    // KENT: Stop thinking in terms of lifecycle hooks; start thinking in terms of syncing changes with state
     // KENT: If the array is empty the callback will only run the first time — or will run every time??? — fsr
       // bc nothing to trigger the callback again(???)
     // KENT: Re Veekas' Q, always do what the linter plugin (https://www.npmjs.com/package/eslint-plugin-react-hooks) says

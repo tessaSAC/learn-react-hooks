@@ -5,12 +5,27 @@ import React from 'react'
 function Board() {
   // 🐨 Use React.useState for the `squares` state you need
   // 💰 To create an empty array with 9 slots, you can use: `Array(9).fill(null)`
+  const [ squares, setSquares ] = React.useState(Array(9).fill(null))
+
+
 
   // 🐨 create your derived state variable here for the nextValue
   // 💰 call it "nextValue" and get it by calling calculateWhoIsNext with the squares
+  const checkSquare = square => {
+    if(square) return square.toLowerCase === 'x'
+  }
+
+  const exes = squares.filter(square => square.toLowerCase === 'x')
+  const ohs = squares.filter(square => square.toLowerCase === 'o')
+  const nextValue = exes.length > ohs? 'o' : 'x'
+
+
 
   // 🐨 create your derived state variable here for the winner
   // 💰 call it "winner" and get it by calling calculateWinner with the squares
+  const winner = calculateWinner(squares)
+
+
 
   // This is the function your square click handler will call. `square` should
   // be an index. So if they click the center square, this will be `5`.
@@ -19,24 +34,36 @@ function Board() {
     // 🐨 first, if there's already winner or there's already a value at the
     // given square index (like someone clicked a square that's already been
     // clicked), then return early so we don't make any state changes
-    //
+    if(winner || square) return
+
+
+
     // 🦉 It's typically a bad idea to manipulate state in React
     // 🐨 make a copy of the squares array (💰 `[...squares]` will do it!)
     // 🐨 Set the value of the square that was selected
     // 💰 `squaresCopy[square] = nextValue`
     //
     // 🐨 set the squares to your copy
+
+    const grid = [ ...squares ]
+    grid[ square ] = nextValue
+    setSquares(grid)
   }
 
   // Here we'll determine the status we'll display at the top of the board.
   // We can have the following statuses:
-  // `Winner: ${winner}`
+  // `Winner: ${ winner }`
   // `Scratch: Cat's game` (💰 if every square in squares is truthy and there's no winner, then it's a scratch)
-  // `Next player: ${nextValue}`
+  // `Next player: ${ nextValue }`
   //
   // 🐨 assign a `status` variable to one of these, and render it above the
   //    board in a div with the className "status"
-  //
+  const status = winner
+    ? `Winner: ${ winner }`
+    : squares.map(square => square).length === squares.length
+      ? `Scratch: Cat's game`
+      : `Next player: ${ nextValue }`
+
   // 🐨 return your JSX with this basic structure:
   return (
     <div>
