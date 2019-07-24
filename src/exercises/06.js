@@ -3,9 +3,68 @@
 import React from 'react'
 import fetchPokemon from '../fetch-pokemon'
 
-function PokemonInfo({pokemonName}) {
+function PokemonInfo({ pokemonName }) {
   // 🐨 Have state for the pokemon (null), the error state (null), and the
   // loading state (false).
+
+  // const [ error, setError ] = React.useState(null)
+  // const [ loading, setLoading ] = React.useState(false)
+  // const [ pokemon, setPokemon ] = React.useState(null)
+
+  // EC 1/1: Put all state in an object
+  const [ state, setState ] = React.useState({
+    error: null,
+    loading: false,
+    pokemon: null
+  })
+
+  // React.useEffect(_ => setError({}))  // KENT: Why a missing dep array can result in an infinite re-render
+
+  React.useEffect(_ => {
+    // To avoid potential memory leaks if the component may no longer exist by the time the data is fetched but we're still trying to write state to it, check if it's mounted
+
+
+    if(!pokemonName) return
+
+    // setLoading(true)
+    // setError(null)
+    // setPokemon(null)
+
+
+    const [ state, setState ] = React.useState({
+      loading: false,
+      error: null,
+      pokemon: null
+    })
+
+    fetchPokemon('Pikachu').then(
+        pokemon => {
+        //   setLoading(false)
+        //   setError(null)
+        //   setPokemon(pokemon)
+
+          React.setState({
+            loading: false,  // Need to always pass all values (idempotent?)
+            error: null,
+            pokemon,
+          })
+        },
+
+        error => {
+          // setLoading(false)
+          // setError(error)
+          // setPokemon(null)
+
+          React.setState({
+            loading: false,
+            error,
+            pokemon: null,
+          })
+        },
+      )
+  }, [ pokemonName ])  // only fetch pokemon if the name has changed
+
+
 
   // 🐨 use React.useEffect where the callback should be called whenever the
   // pokemon name changes.
@@ -29,6 +88,20 @@ function PokemonInfo({pokemonName}) {
         padding: 10,
       }}
     >
+
+
+      {
+        loading
+          ? '...'
+          : error
+            ? 'ERROR'
+              ? pokemon
+              :<pre>{ JSON.stringify(pokemon || 'Unknown', null, 2) }</pre>
+            : 'THIS SHOULD NOT HAPPEN CONTACT THE DEVS'
+      }
+
+
+
       {/*
         🐨 Render the appropriate content based on the state:
             1. loading: '...'
