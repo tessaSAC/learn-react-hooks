@@ -17,6 +17,7 @@ function PokemonInfo({ pokemonName }) {
     loading: false,
     pokemon: null
   })
+  const { pokemon, loading, error } = state
 
   // React.useEffect(_ => setError({}))  // KENT: Why a missing dep array can result in an infinite re-render
 
@@ -29,13 +30,6 @@ function PokemonInfo({ pokemonName }) {
     // setLoading(true)
     // setError(null)
     // setPokemon(null)
-
-
-    const [ state, setState ] = React.useState({
-      loading: false,
-      error: null,
-      pokemon: null
-    })
 
     fetchPokemon('Pikachu').then(
         pokemon => {
